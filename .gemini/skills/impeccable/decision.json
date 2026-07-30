@@ -1,0 +1,55 @@
+{
+  "title": "Choose the visual world",
+  "question": "The roll assigned Digital Multimeter. Keep it, take an alternate, or re-roll.",
+  "options": [
+    {
+      "id": "assigned",
+      "label": "Digital Multimeter",
+      "kicker": "THE ROLL",
+      "lineage": "high-contrast utility LCDs",
+      "thesis": "The meter is the truth: raw, utilitarian number-crunching without decoration.",
+      "palette": [
+        "#000000",
+        "#1a1a1a",
+        "#e5e5e5",
+        "#d1d5db"
+      ],
+      "materials": [
+        "matte black plastic",
+        "LCD segment displays"
+      ],
+      "viewport": "Massive high-contrast numerical inputs dominating the mobile screen.",
+      "risk": "Can feel too harsh or technical if spacing isn't perfectly balanced.",
+      "sketch": ".impeccable/sketches/assigned.webp",
+      "hero": "https://impeccable.style/worlds/cards/medium-native-one-bit-desktop-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/medium-native-one-bit-desktop.webp"
+    },
+    {
+      "id": "challenger-onebit",
+      "label": "Early One-Bit Desktop",
+      "lineage": "early Mac UI, Chicago fonts",
+      "thesis": "The utility app as a classic, pixel-perfect 1-bit window.",
+      "case": "Fuses playfully: turns meter reading into a classic Mac OS interaction.",
+      "sketch": ".impeccable/sketches/challenger-onebit.webp",
+      "hero": "https://impeccable.style/worlds/cards/medium-native-one-bit-desktop-hero.webp"
+    },
+    {
+      "id": "challenger-nightflight",
+      "label": "Night Flight Six-Pack",
+      "lineage": "aircraft instrument panels",
+      "thesis": "The app as a glowing set of precision dials in the dark.",
+      "case": "Fuses thematically: dials fit meters, but might overcomplicate simple text entry.",
+      "sketch": ".impeccable/sketches/challenger-nightflight.webp",
+      "hero": "https://impeccable.style/worlds/cards/signals-instruments-night-flight-six-pack-hero.webp"
+    }
+  ],
+  "reroll": true,
+  "canon": true,
+  "canonCard": {
+    "label": "The category standard",
+    "thesis": "What this category ships, executed impeccably.",
+    "viewport": "The arrangement a visitor expects, at full craft.",
+    "sketch": ".impeccable/sketches/canon.webp"
+  },
+  "steer": true
+}
