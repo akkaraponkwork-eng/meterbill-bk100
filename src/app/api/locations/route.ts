@@ -81,3 +81,91 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: false, error: errorMessage }, { status: 500 });
   }
 }
+
+export async function PUT(req: Request) {
+  try {
+    const { oldName, newName } = await req.json();
+    if (!oldName || !newName) return NextResponse.json({ success: false, error: 'Missing names' }, { status: 400 });
+
+    const auth = new google.auth.GoogleAuth({
+      credentials: {
+        client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+        private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+      },
+      scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+    });
+
+    const sheets = google.sheets({ version: 'v4', auth });
+    const spreadsheetId = process.env.GOOGLE_SHEET_ID;
+
+    // Get all locations
+    const response = await sheets.spreadsheets.values.get({
+      spreadsheetId,
+      range: 'Locations!A:A',
+    });
+
+    const rows = response.data.values || [];
+    const rowIndex = rows.findIndex(r => r[0] === oldName.trim());
+
+    if (rowIndex === -1) {
+      return NextResponse.json({ success: false, error: 'Location not found' }, { status: 404 });
+    }
+
+    // Update the specific cell (adding 1 because rows array is 0-indexed and Sheets are 1-indexed)
+    await sheets.spreadsheets.values.update({
+      spreadsheetId,
+      range: `Locations!A${rowIndex + 1}`,
+      valueInputOption: 'USER_ENTERED',
+      requestBody: {
+        values: [[newName.trim()]],
+      },
+    });
+
+    return NextResponse.json({ success: true, message: 'Updated' });
+  } catch (error: unknown) {
+    console.error('Error updating location:', error);
+    return NextResponse.json({ success: false, error: 'Failed to update location' }, { status: 500 });
+  }
+}
+
+export async function DELETE(req: Request) {
+  try {
+    const { location } = await req.json();
+    if (!location) return NextResponse.json({ success: false, error: 'Missing location' }, { status: 400 });
+
+    const auth = new google.auth.GoogleAuth({
+      credentials: {
+        client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+        private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+      },
+      scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+    });
+
+    const sheets = google.sheets({ version: 'v4', auth });
+    const spreadsheetId = process.env.GOOGLE_SHEET_ID;
+
+    // Get all locations
+    const response = await sheets.spreadsheets.values.get({
+      spreadsheetId,
+      range: 'Locations!A:A',
+    });
+
+    const rows = response.data.values || [];
+    const rowIndex = rows.findIndex(r => r[0] === location.trim());
+
+    if (rowIndex === -1) {
+      return NextResponse.json({ success: false, error: 'Location not found' }, { status: 404 });
+    }
+
+    // Clear the specific cell
+    await sheets.spreadsheets.values.clear({
+      spreadsheetId,
+      range: `Locations!A${rowIndex + 1}`,
+    });
+
+    return NextResponse.json({ success: true, message: 'Deleted' });
+  } catch (error: unknown) {
+    console.error('Error deleting location:', error);
+    return NextResponse.json({ success: false, error: 'Failed to delete location' }, { status: 500 });
+  }
+}
