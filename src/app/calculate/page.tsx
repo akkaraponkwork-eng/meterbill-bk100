@@ -847,6 +847,7 @@ export default function CalculatePage() {
           </div>
         </div>
 
+        {/*
         <div className="mt-4 text-center pb-8">
           <button
             onClick={handleSetupSheet}
@@ -856,6 +857,7 @@ export default function CalculatePage() {
             {isSettingUp ? 'กำลังเตรียม Google Sheets...' : 'ตั้งค่าหน้า Google Sheets ครั้งแรก'}
           </button>
         </div>
+        */}
 
       </div>
 
